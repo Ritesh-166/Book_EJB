@@ -1,0 +1,45 @@
+<server description="Open Liberty Server">
+    <featureManager>
+        <feature>jaxrs-2.1</feature>
+        <feature>ejbLite-3.2</feature>
+        <feature>jdbc-4.2</feature>
+        <feature>cdi-2.0</feature>
+        <feature>beanValidation-2.0</feature>
+        <feature>json-1.0</feature>
+        <feature>jpaContainer-2.2</feature>
+        <feature>jaxb-2.2</feature>
+        <feature>bells-1.0</feature>
+    </featureManager>
+
+    <dataSource id="DefaultDataSource" jndiName="jdbc/mysql"  >
+        <jdbcDriver libraryRef="jdbcLib"/>
+        <properties  serverName="localhost" portNumber="3306"
+                    databaseName="ejb_test"
+                    user="root"
+                    password="MRO@22092019#"/>
+    </dataSource>
+
+    <httpEndpoint id="defaultHttpEndpoint"
+                  httpPort="9080"
+                  httpsPort="9443" />
+
+    <application id="Demo1"
+                 location="Demo1.war"
+                 type="war" >
+    <classloader commonLibraryRef="hibernate"/>
+    </application>
+
+    <library id="jdbcLib">
+        <file name="${server.config.dir}/mysql-connector-java-8.0.23.jar" />
+    </library>
+
+    <bell libraryRef="hibernate"/>
+
+    <library id="hibernate">
+        <fileset dir="${server.config.dir}/hibernate/" includes="*.jar"/>
+    </library>
+
+    <library id="Demo1-lib">
+        <fileset dir="${shared.resource.dir}" includes="Demo1-1.0-SNAPSHOT.jar" />
+    </library>
+</server>
